@@ -1,6 +1,9 @@
 package requestSummary;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +20,52 @@ public class RequestSummary extends HttpServlet {
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		
+		ArrayList<String> parameterNames = new ArrayList<String>(request.getParameterMap().keySet());
+		
+		out.println("<!DOCTYPE html>");
+		out.println("<html lang=\"en\">");
+		out.println("<head>");
+		out.println("<meta charset=\"UTF-8\">");
+		out.println("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">");
+		out.println("<title>Request Summary</title>");
+		out.println("</head>");
+		
+		out.println("<body>");
+		
+		out.println("<div class = \"container\">");
+		out.println("<h1 class = \"page-header\">Request Parameters</h1>");
+		
+		
+		//Request Parameters
+		out.println("<table class = \"table\">");
+		out.println("<thead>");
+		out.println("<tr>");
+		out.println("<th>Parameter Name</th>");
+		out.println("<th>Parameter Value</th>");
+		out.println("</tr>");
+		out.println("</thead>");
+		for(int i = 0; i < parameterNames.size(); i++) {
+			String[] values = request.getParameterValues(parameterNames.get(i));
+			out.println("<tr>");
+			out.print("<td>" + parameterNames.get(i) + "</td>");
+			out.println("<td>");
+			for(int j = 0; j < values.length; j++) {
+				out.print(values[j] + " ");
+			}
+			out.println("</td>");
+			out.println("</tr>");
+		}
+		
+		out.println("</table");
+		out.println("</div>");
+		
+		//
+
+		out.println("</body>");
+		out.println("</html>");
 		
 	}
 

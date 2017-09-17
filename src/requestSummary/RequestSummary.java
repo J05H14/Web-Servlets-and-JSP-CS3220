@@ -3,18 +3,19 @@ package requestSummary;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletRequest;
 
 /**
  * Servlet implementation class RequestSummary
  */
-@WebServlet("/RequestSummary")
+@WebServlet("/Labs/RequestSummary")
 public class RequestSummary extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -37,7 +38,7 @@ public class RequestSummary extends HttpServlet {
 		
 		out.println("<div class = \"container\">");
 		out.println("<h1 class = \"page-header\">Request Parameters</h1>");
-		
+		out.println("The following "+ request.getMethod() + " was made on " + new java.util.Date());
 		
 		//Request Parameters
 		out.println("<table class = \"table\">");
@@ -62,7 +63,29 @@ public class RequestSummary extends HttpServlet {
 		out.println("</table");
 		out.println("</div>");
 		
-		//
+		//Header Info
+		Enumeration<String> headerNames = request.getHeaderNames();
+		ArrayList<String> list = Collections.list(headerNames);
+
+		
+		out.println("<h1 class = \"page-header\">Header Information</h1>");
+		out.println("<table class = \"table\"");
+		out.println("<thead>");
+		out.println("<tr>");
+		out.println("<th>Header Field</th>");
+		out.println("<th>Header Value</th>");
+		out.println("</tr>");
+		out.println("</thead>");
+		
+		for(int i = 0; i < list.size(); i++) {
+			
+			out.println("<tr>");
+			out.println("<td>" + list.get(i) + "</td>");
+			out.println("<td>" + request.getHeader(list.get(i)) + "</td>");
+			out.println("</tr>");
+		}
+
+		out.println("</table");
 
 		out.println("</body>");
 		out.println("</html>");

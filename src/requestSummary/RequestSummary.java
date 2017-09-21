@@ -21,7 +21,7 @@ public class RequestSummary extends HttpServlet {
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.setContentType("text/html");
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
 		ArrayList<String> parameterNames = new ArrayList<String>(request.getParameterMap().keySet());
@@ -37,9 +37,10 @@ public class RequestSummary extends HttpServlet {
 		out.println("<body>");
 		
 		out.println("<div class = \"container\">");
-		out.println("<h1 class = \"page-header\">Request Parameters</h1>");
-		out.println("The following "+ request.getMethod() + " was made on " + new java.util.Date());
+		out.println("<h1 class = \"page-header\">Request Summary <small>Lab 2</small></h1>");
+		out.println("The following "+ request.getMethod() + " request was made on " + new java.util.Date());
 		
+		out.println("<h3>Request Parameters</h3>");
 		//Request Parameters
 		out.println("<table class = \"table\">");
 		out.println("<thead>");
@@ -48,6 +49,7 @@ public class RequestSummary extends HttpServlet {
 		out.println("<th>Parameter Value</th>");
 		out.println("</tr>");
 		out.println("</thead>");
+		
 		for(int i = 0; i < parameterNames.size(); i++) {
 			String[] values = request.getParameterValues(parameterNames.get(i));
 			out.println("<tr>");
@@ -59,23 +61,23 @@ public class RequestSummary extends HttpServlet {
 			out.println("</td>");
 			out.println("</tr>");
 		}
+		out.println("</table>");
 		
-		out.println("</table");
-		out.println("</div>");
-		
+		out.println("<h3>Header Information</h3>");
 		//Header Info
-		Enumeration<String> headerNames = request.getHeaderNames();
-		ArrayList<String> list = Collections.list(headerNames);
-
+		ArrayList<String> list = Collections.list(request.getHeaderNames());
 		
-		out.println("<h1 class = \"page-header\">Header Information</h1>");
-		out.println("<table class = \"table\"");
+		out.println("<table class = \"table\">");
 		out.println("<thead>");
 		out.println("<tr>");
 		out.println("<th>Header Field</th>");
 		out.println("<th>Header Value</th>");
 		out.println("</tr>");
 		out.println("</thead>");
+		out.println("<tr>");
+
+		out.println("</tr>");
+		
 		
 		for(int i = 0; i < list.size(); i++) {
 			
@@ -84,9 +86,9 @@ public class RequestSummary extends HttpServlet {
 			out.println("<td>" + request.getHeader(list.get(i)) + "</td>");
 			out.println("</tr>");
 		}
-
-		out.println("</table");
-
+		out.println("</table>");
+		
+		out.println("</div>");
 		out.println("</body>");
 		out.println("</html>");
 		

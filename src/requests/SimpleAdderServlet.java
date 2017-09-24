@@ -50,6 +50,7 @@ public class SimpleAdderServlet extends HttpServlet {
 		}
 		catch(Exception e) {
 			out.println("<p class=\"lead text-danger\">Invalid inputs! You must enter whole numbers</p>");
+			response.sendRedirect("SimpleAdder.html");
 		}
 		
 		

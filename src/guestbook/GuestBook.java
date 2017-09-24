@@ -12,89 +12,108 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/Labs/GuestBook", loadOnStartup = 2)
+@WebServlet(urlPatterns = "/GuestBook", loadOnStartup = 2)
 public class GuestBook extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public GuestBook()
-    {
-        super();
-    }
+	public GuestBook()
+	{
+		super();
+	}
 
-    public void init( ServletConfig config ) throws ServletException
-    {
-        super.init( config );
+	public void init( ServletConfig config ) throws ServletException
+	{
+		super.init( config );
 
-        // create some test data for display
-        List<GuestBookEntry> entries = new ArrayList<GuestBookEntry>();
-        entries.add( new GuestBookEntry( 1, "john", "hello" ) );
-        entries.add( new GuestBookEntry( 2, "joe", "hi" ) );
+		// create some test data for display
+		List<GuestBookEntry> entries = new ArrayList<GuestBookEntry>();
+		entries.add( new GuestBookEntry( 1, "john", "hello" ) );
+		entries.add( new GuestBookEntry( 2, "joe", "hi" ) );
 
-        // stored the data somewhere that can be accessed by this servlet
-        // and other servlets.
-        getServletContext().setAttribute( "entries", entries );
-    }
+		// stored the data somewhere that can be accessed by this servlet
+		// and other servlets.
+		getServletContext().setAttribute( "entries", entries );
+	}
 
-    @SuppressWarnings("unchecked")
-    protected void doGet( HttpServletRequest request,
-        HttpServletResponse response ) throws ServletException, IOException
-    {
-        // get the data
-        List<GuestBookEntry> entries = (List<GuestBookEntry>) getServletContext().getAttribute(
-            "entries" );
-        
-        boolean isSearch = false;
+	@SuppressWarnings("unchecked")
+	protected void doGet( HttpServletRequest request,
+			HttpServletResponse response ) throws ServletException, IOException
+	{
+		// get the data
+		List<GuestBookEntry> entries = (List<GuestBookEntry>) getServletContext().getAttribute(
+				"entries" );
 
-        // display it
-        response.setContentType( "text/html" );
-        PrintWriter out = response.getWriter();
-        out.println( "<html><head>"
-        		+ "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">\r\n" + 
-        		"<title>Guest Book</title></head><body>" );
+		boolean isSearch = false;
 
-        out.println("<form action = \"GuestBook\" method = \"GET\">");
-        out.println("Search <input type = \"text\" name = \"query\"><br>");
-        out.println("<input class=\"btn btn-primary\" type=\"submit\" value=\"Search\">");
-        
-        out.println("</form>");
-                
+		// display it
+		response.setContentType( "text/html" );
+		PrintWriter out = response.getWriter();
+		out.println( "<html><head>"
+				+ "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">\r\n" + 
+				"<title>Guest Book</title></head><body>" );
 
-        
-        if(request.getParameterValues("query") != null) {
-        	isSearch = true;
-            out.println(request.getParameterValues("query")[0]);
-        
-            if(request.getParameterValues("query")[0].equals("")) {
-            	isSearch = false;
-            }
-        }
-        
-        out.println(isSearch);
-        
-        out.println( "<table border='1' class = \"table\">" );
-        out.println( "<tr><th>Id</th><th>Name</th><th>Message</th><th><br /></th></tr>" );
-        for( GuestBookEntry entry : entries )
-        {
-            out.println( "<tr><td>" + entry.getId() + "</td><td>"
-                + entry.getName() + "</td><td>" + entry.getMessage()
-                + "</td><td><a href='EditComment?id=" + entry.getId()
-                + "'>Edit</a> <a href='DeleteComment?id=" + entry.getId()
-                + "'>Delete</a></td></tr>" );
-        }
-        out.println( "</table>" );
+		out.println("<form action = \"GuestBook\" method = \"GET\">");
+		out.println("Search <input type = \"text\" name = \"query\"><br>");
+		out.println("<input class=\"btn btn-primary\" type=\"submit\" value=\"Search\">");
 
-        out.println( "<p><a href='AddComment'>Add Comment</a></p>" );
-        out.println( "<p><a href='AddCommentWithCookie'>Add Comment (with Cookie)</a></p>" );
-        out.println( "<p><a href='AddCommentWithSession'>Add Comment (with Session)</a></p>" );
+		out.println("</form>");
 
-        out.println( "</body></html>" );
-    }
+		
 
-    protected void doPost( HttpServletRequest request,
-        HttpServletResponse response ) throws ServletException, IOException
-    {
-        doGet( request, response );
-    }
+		if(request.getParameterValues("query") != null) {
+			isSearch = true;
+			out.println(request.getParameterValues("query")[0]);
+
+			if(request.getParameterValues("query")[0].equals("")) {
+				isSearch = false;
+			}
+		}
+
+		out.println(isSearch);
+
+		printTable(request, response, isSearch, entries);
+
+		out.println( "<p><a href='AddComment'>Add Comment</a></p>" );
+		out.println( "<p><a href='AddCommentWithCookie'>Add Comment (with Cookie)</a></p>" );
+		out.println( "<p><a href='AddCommentWithSession'>Add Comment (with Session)</a></p>" );
+
+		out.println( "</body></html>" );
+	}
+
+	protected void doPost( HttpServletRequest request,
+			HttpServletResponse response ) throws ServletException, IOException
+	{
+		doGet( request, response );
+	}
+
+	private void printTable(HttpServletRequest request, HttpServletResponse response, boolean isSearch,  List<GuestBookEntry> entries) throws IOException {
+		PrintWriter out = response.getWriter();
+
+		out.println( "<table border='1' class = \"table\">" );
+		out.println( "<tr><th>Id</th><th>Name</th><th>Message</th><th><br /></th></tr>" );
+		if(!isSearch) {
+			for( GuestBookEntry entry : entries ) {
+				out.println( "<tr><td>" + entry.getId() + "</td><td>"
+						+ entry.getName() + "</td><td>" + entry.getMessage()
+						+ "</td><td><a href='EditComment?id=" + entry.getId()
+						+ "'>Edit</a> <a href='DeleteComment?id=" + entry.getId()
+						+ "'>Delete</a></td></tr>" );
+			}
+		}
+		else {
+			for(GuestBookEntry entry : entries) {
+				if(entry.getName().toLowerCase().contains(request.getParameterValues("query")[0].toLowerCase()) ||
+						entry.getMessage().toLowerCase().contains(request.getParameterValues("query")[0].toLowerCase())) {
+					out.println( "<tr><td>" + entry.getId() + "</td><td>"
+							+ entry.getName() + "</td><td>" + entry.getMessage()
+							+ "</td><td><a href='EditComment?id=" + entry.getId()
+							+ "'>Edit</a> <a href='DeleteComment?id=" + entry.getId()
+							+ "'>Delete</a></td></tr>" );
+				}
+			}
+		}
+		out.println( "</table>" );
+	}
 
 }

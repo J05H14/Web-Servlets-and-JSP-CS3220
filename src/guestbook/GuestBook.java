@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/GuestBook", loadOnStartup = 2)
+@WebServlet(urlPatterns = "/Labs/GuestBook", loadOnStartup = 2)
 public class GuestBook extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -50,12 +50,14 @@ public class GuestBook extends HttpServlet {
 		response.setContentType( "text/html" );
 		PrintWriter out = response.getWriter();
 		out.println( "<html><head>"
-				+ "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">\r\n" + 
-				"<title>Guest Book</title></head><body>" );
+				+ "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">"
+				+ "<title>Guestbook</title>"
+				+ "</head><body>" );
 
+		out.println("<div class = \"container\">");
 		out.println("<form action = \"GuestBook\" method = \"GET\">");
-		out.println("Search <input type = \"text\" name = \"query\"><br>");
-		out.println("<input class=\"btn btn-primary\" type=\"submit\" value=\"Search\">");
+		out.println("<input type = \"text\" name = \"query\" placeholder=\"Search\">");
+		out.println("<input class=\"btn btn-primary\" type=\"submit\" value=\"Search\"");
 
 		out.println("</form>");
 
@@ -70,15 +72,13 @@ public class GuestBook extends HttpServlet {
 			}
 		}
 
-		out.println(isSearch);
-
 		printTable(request, response, isSearch, entries);
 
 		out.println( "<p><a href='AddComment'>Add Comment</a></p>" );
 		out.println( "<p><a href='AddCommentWithCookie'>Add Comment (with Cookie)</a></p>" );
 		out.println( "<p><a href='AddCommentWithSession'>Add Comment (with Session)</a></p>" );
 
-		out.println( "</body></html>" );
+		out.println( "</div></body></html>" );
 	}
 
 	protected void doPost( HttpServletRequest request,

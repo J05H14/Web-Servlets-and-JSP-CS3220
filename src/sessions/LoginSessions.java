@@ -21,7 +21,7 @@ import models.Student;
 @WebServlet(urlPatterns="/sessions/Login", loadOnStartup=3)
 public class LoginSessions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Student cookiedStudent;
+	private Student cookiedStudent;
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -91,9 +91,6 @@ public class LoginSessions extends HttpServlet {
 		for(Cookie cookie : request.getCookies()) {
 			out.println(cookie.getName());
 			if(cookie.getName().equals("student")) {
-				//Student cookiedStudent = 
-				ArrayList<Student> students = (ArrayList<Student>) getServletContext().getAttribute("students");
-				
 				HttpSession session = request.getSession();
 				session.setAttribute("authenticatedStudent", this.cookiedStudent);
 				
@@ -111,8 +108,6 @@ public class LoginSessions extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ArrayList<Student> students = (ArrayList<Student>) getServletContext().getAttribute("students");
-		Student cookieStudent = null;
-		
 		
 		
 		// Get the credentials from the request object
@@ -121,11 +116,13 @@ public class LoginSessions extends HttpServlet {
 		
 		//create cookie if remember me is checked
 		if(request.getParameter("rememberMe") != null) {
-			String cookieVal = cookieVal(username);
+			String cookieVal = stringToByteArray(username);
 			
 			for(Student student : students) {
 				if(student.getEmail().toLowerCase().equals(username.trim().toLowerCase()) &&
 						student.getPassword().equals(password)) {
+					
+					//saves the remembered student
 					saveCookieStudent(student);
 				}
 			}
@@ -134,22 +131,6 @@ public class LoginSessions extends HttpServlet {
 			response.addCookie(userCookie);
 		}
 		
-		
-		
-//		//if there is a cookie
-//		Cookie[] cookies = request.getCookies();
-//		for(Cookie cookie : cookies) {
-//			response.getWriter().println(cookie);
-//			if(cookie.getName().equals("student")) {
-//				
-//				HttpSession session = request.getSession();
-//				session.setAttribute("authenticatedStudent", students.get(0));
-//				
-//				response.sendRedirect("MyProfile");
-//				return;
-//			}
-//		}
-//		
 		// If the user submitted bad input, just redisplay the form
 		if (username == null || username.trim().length() == 0 ||
 				password == null || password.trim().length() == 0) {
@@ -190,7 +171,7 @@ public class LoginSessions extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public String cookieVal(String parameter){
+	public String stringToByteArray(String parameter){
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");

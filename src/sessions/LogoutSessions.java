@@ -19,16 +19,10 @@ public class LogoutSessions extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
 			System.out.println(cookie.getName());
-//			cookie.setValue(null);
-//			cookie.setPath("/");
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
-		System.out.println("after delete");
-		for (Cookie cookie : cookies) {
-			System.out.println(cookie.getName());
 
-		}
 
 
 		response.sendRedirect("Login");

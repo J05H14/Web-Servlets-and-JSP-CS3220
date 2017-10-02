@@ -21,6 +21,7 @@ import models.Student;
 @WebServlet(urlPatterns="/sessions/Login", loadOnStartup=3)
 public class LoginSessions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Student cookiedStudent;
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -86,7 +87,20 @@ public class LoginSessions extends HttpServlet {
 		out.println("	</div>");
 		out.println("	<button type=\"submit\" class=\"btn btn-primary\">Login</button>");
 		out.println("</form>");
-		out.println(request.getCookies());
+		
+		for(Cookie cookie : request.getCookies()) {
+			out.println(cookie.getName());
+			if(cookie.getName().equals("student")) {
+				//Student cookiedStudent = 
+				ArrayList<Student> students = (ArrayList<Student>) getServletContext().getAttribute("students");
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("authenticatedStudent", this.cookiedStudent);
+				
+				response.sendRedirect("MyProfile");
+				return;
+			}
+		}
 		
 		out.println("</div>");
 		out.println("</body>");
@@ -99,6 +113,8 @@ public class LoginSessions extends HttpServlet {
 		ArrayList<Student> students = (ArrayList<Student>) getServletContext().getAttribute("students");
 		Student cookieStudent = null;
 		
+		
+		
 		// Get the credentials from the request object
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -110,7 +126,7 @@ public class LoginSessions extends HttpServlet {
 			for(Student student : students) {
 				if(student.getEmail().toLowerCase().equals(username.trim().toLowerCase()) &&
 						student.getPassword().equals(password)) {
-					cookieStudent = student;
+					saveCookieStudent(student);
 				}
 			}
 			
@@ -118,19 +134,22 @@ public class LoginSessions extends HttpServlet {
 			response.addCookie(userCookie);
 		}
 		
+		
+		
 //		//if there is a cookie
 //		Cookie[] cookies = request.getCookies();
 //		for(Cookie cookie : cookies) {
+//			response.getWriter().println(cookie);
 //			if(cookie.getName().equals("student")) {
 //				
 //				HttpSession session = request.getSession();
-//				session.setAttribute("authenticatedStudent", cookieStudent);
+//				session.setAttribute("authenticatedStudent", students.get(0));
 //				
 //				response.sendRedirect("MyProfile");
 //				return;
 //			}
 //		}
-		
+//		
 		// If the user submitted bad input, just redisplay the form
 		if (username == null || username.trim().length() == 0 ||
 				password == null || password.trim().length() == 0) {
@@ -198,5 +217,8 @@ public class LoginSessions extends HttpServlet {
 	    return hexString.toString();
 	}
 	
+	private void saveCookieStudent(Student student) {
+		cookiedStudent = student;
+	}
 
 }

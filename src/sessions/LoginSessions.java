@@ -89,7 +89,6 @@ public class LoginSessions extends HttpServlet {
 		out.println("</form>");
 		
 		for(Cookie cookie : request.getCookies()) {
-			out.println(cookie.getName());
 			if(cookie.getName().equals("student")) {
 				HttpSession session = request.getSession();
 				session.setAttribute("authenticatedStudent", this.cookiedStudent);

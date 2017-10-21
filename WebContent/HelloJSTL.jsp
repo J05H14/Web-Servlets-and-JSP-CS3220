@@ -9,5 +9,6 @@
 </head>
 <body>
 	<c:out value="Hello JSTL" />
+	${null eq null}
 </body>
 </html>

@@ -9,8 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table>
-	</table>
-
+	<c:forEach items="${characters}" var="character">
+		${character}
+	</c:forEach>
 </body>
 </html>

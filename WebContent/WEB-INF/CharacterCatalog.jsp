@@ -10,7 +10,7 @@
 </head>
 <body>
 	<c:forEach items="${characters}" var="character">
-		${character}
+		${character.getThumbnail()}
 	</c:forEach>
 </body>
 </html>

@@ -18,7 +18,7 @@
 	<c:forEach items="${characters}" var = "character" varStatus="status">
 		<div class="col-sm-4 text-center">
 			<div class="well">
-				<a href="${character.getRandomImage() }">
+				<a href="CharacterProfile?id=${character.getId() }">
 					${character.getName()}<br>
 					<img style="height: 150px;" src="${character.getThumbnail()}" class="img-responsive img-thumbnail">
 				</a>

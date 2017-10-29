@@ -1,9 +1,8 @@
 package controllers;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,7 +16,7 @@ import models.SimpsonsCharacter;
 /**
  * Servlet implementation class CharacterCatalogController
  */
-@WebServlet("/CharacterCatalogController")
+@WebServlet("/CharacterCatalog")
 public class CharacterCatalogController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,8 +35,7 @@ public class CharacterCatalogController extends HttpServlet {
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-
-		ArrayList<SimpsonsCharacter> characters = new ArrayList<SimpsonsCharacter>();
+		List<SimpsonsCharacter> characters = new ArrayList<SimpsonsCharacter>();
 
 		characters.add(new SimpsonsCharacter("Homer Simpson",2246) );
 		characters.add(new SimpsonsCharacter("Ned Flanders",1454) );

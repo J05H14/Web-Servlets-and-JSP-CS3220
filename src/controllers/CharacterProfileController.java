@@ -1,7 +1,7 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -16,7 +16,7 @@ import models.SimpsonsCharacter;
 /**
  * Servlet implementation class CharacterProfileController
  */
-@WebServlet("/CharacterProfileController")
+@WebServlet("/CharacterProfile")
 public class CharacterProfileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -29,20 +29,12 @@ public class CharacterProfileController extends HttpServlet {
     }
 
 	/**
-	 * @see Servlet#getServletConfig()
-	 */
-	public ServletConfig getServletConfig() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	
 	@SuppressWarnings("unchecked")
-	private SimpsonsCharacter getCharacter(Integer id) {
-		ArrayList<SimpsonsCharacter> characters = (ArrayList<SimpsonsCharacter>) getServletContext().getAttribute("characters");
+	public SimpsonsCharacter getCharacter(Integer id) {
+		List<SimpsonsCharacter> characters = (List<SimpsonsCharacter>) getServletContext().getAttribute("characters");
 		
 		for(SimpsonsCharacter character : characters) {
 			if(character.getId() == id) {

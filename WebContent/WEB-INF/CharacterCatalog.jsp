@@ -12,6 +12,7 @@
 <title>Simpsons Catalog</title>
 </head>
 <body>
+
 <div class="container text-center">
 <div class="row">
 	<c:forEach items="${characters}" var = "character" varStatus="status">

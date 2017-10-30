@@ -33,7 +33,7 @@ public class SimpsonsCharacter {
 			return "http://albertcervantes.com/cs3220/cdn/simpsons/" + nameURL + "/pic_" + imageURL + ".jpg";
 		}
 		else {
-			return "http://google.com";
+			return "http://via.placeholder.com/150?text=N/A";
 		}
 	}
 	public int getId() {

@@ -16,7 +16,7 @@ import models.SimpsonsCharacter;
 /**
  * Servlet implementation class CharacterCatalogController
  */
-@WebServlet("/CharacterCatalog")
+@WebServlet("/Simpsons/CharacterCatalog")
 public class CharacterCatalogController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

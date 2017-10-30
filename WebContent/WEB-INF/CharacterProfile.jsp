@@ -12,6 +12,7 @@
 <style>
 body{ 
  	background-image:url(http://albertcervantes.com/cs3220/cdn/simpsons/clouds.png); 
+ 	margin-top:20px;
 } 
 </style>
 </head>
@@ -37,20 +38,21 @@ body{
 	</div>
 </c:if>
 <c:if test="${character.getImages() == 0 }">
-	<div class="row">
-				<div class="col-sm-offset-3 col-sm-6">
-					<div class="well text-center">
-						<img style="width: 30%"src="http://albertcervantes.com/cs3220/cdn/simpsons/simpsons.png">
-						<h1>${character.getName() }</h1>
-						<h3>No Images</h3>
-						<p>
-							<a class="btn btn-success" href="CharacterCatalog">Back to Catalog</a>
-						</p>
-						<p class="text-center" style="overflow: none">
-							<img style="max-height: 200px;" src=${character.getRandomImage() }>
-						</p>
-					</div>
+	<div class="container text-center">
+		<div class="row">
+			<div class="col-sm-offset-3 col-sm-6">
+				<div class="well text-center">
+					<img style="width: 30%"src="http://albertcervantes.com/cs3220/cdn/simpsons/simpsons.png">
+					<h1>${character.getName() }</h1>
+					<h3>No Images</h3>
+					<p>
+						<a class="btn btn-success" href="CharacterCatalog">Back to Catalog</a>
+					</p>
+					<p class="text-center" style="overflow: none">
+						<img style="max-height: 200px;" src=${character.getRandomImage() }>
+					</p>
 				</div>
+			</div>
 		</div>
 	</div>
 </c:if>

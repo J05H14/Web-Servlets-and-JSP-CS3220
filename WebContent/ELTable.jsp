@@ -37,8 +37,8 @@
 </tr>
 <tr>
 	<td>${'${'}"a"+ 3 div 2}</td>
-	<td>${"a".concat(3 div 2)}</td>
-<%-- 	${"a" + 3 div 2} throws NumberFormatException: For input string: "a" --%>
+<%--	<td>${"a".concat(3 div 2)}</td>
+ 	${"a" + 3 div 2} throws NumberFormatException: For input string: "a" --%>
 </tr>
 <tr>
 	<td>${'${'}null == 'test'}</td>
@@ -46,7 +46,7 @@
 </tr>
 <tr>
 	<td>${'${'}null eq null}</td>
-	<td>${null eq null}</td>
+	<td>${null eq 'null'}</td>
 </tr>
 <tr>
 	<td>${'${'}empty ""}</td>
